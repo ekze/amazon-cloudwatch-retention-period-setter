@@ -71,8 +71,8 @@ def lambda_handler(event, context):
         while (nextToken is not None):
             response = client.describe_log_groups(nextToken=nextToken)
             nextToken = response.get('nextToken', None)
-            retention = retention.append(response['logGroups'])
- 
+            retention.extend(response['logGroups'])
+
         for group in retention:
             if 'retentionInDays' in group.keys():
                 LOGGER.info(f"Retention is already set for {group['logGroupName']} LogGroup, {group['retentionInDays']} in {aws_region}")
